@@ -252,7 +252,17 @@ export default function Home() {
 
 
 return (
-<main className="flex flex-col md:flex-row justify-center items-start">
+<main style={{
+      display: 'flex',
+      flexDirection: 'column',
+      alignItems: 'left',
+      justifyContent: 'left',
+      minHeight: '100vh',
+      backgroundImage: `url('https://mir-s3-cdn-cf.behance.net/project_modules/max_1200/392e0b174958175.64abdca37a344.jpg')`,
+      backgroundSize: 'cover',
+      backgroundPosition: 'center',}}
+      className="flex flex-col md:flex-row justify-center items-start" >
+        
       {/* Connect Wallet button */}
       <div className="mb-4 md:mb-0">
         <button
@@ -262,7 +272,7 @@ return (
           {walletKey !== "" ? walletKey : "Connect wallet"}
         </button>
       </div>
-  
+
       {/* Add LXS Coin to your Wallet button */}
       <div className="mb-4 md:ml-4">
         <div>{currentData}</div>
@@ -310,14 +320,14 @@ return (
             STAKE
           </button>
           {sLXS <= 0 && (
-            <p className="text-red-500">Please enter a valid amount to stake.</p>
+            <p className="text-blue-400">Please enter a valid amount to stake.</p>
           )}
         </div>
       )}
-  
+
       {/* WithdrawLXS button */}
       <div className="md:ml-auto">
-        <label className="mb-2 block">{countdown} seconds to WithdrawLXS *Counts Intensely*</label>
+        <p className="text-blue-400">{countdown} seconds to WithdrawLXS *Counts Intensely*</p>
         <button
           className="p-3 bg-slate-800 text-white rounded"
           onClick={withdrawCoin}
