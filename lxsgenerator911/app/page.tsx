@@ -253,6 +253,7 @@ export default function Home() {
 
 return (
 <main style={{
+      color:"Black",
       display: 'flex',
       flexDirection: 'column',
       alignItems: 'left',
