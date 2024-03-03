@@ -224,7 +224,7 @@ return (
       </div>
       <div className="info-box" style={{ color: 'lightblue', }}>
       <h2>Add LXS Coin to your wallet</h2>
-      <p>Wallet Address: <span>0xef40884AD33dF9454d5418ae3468b9CB682E5922</span></p>
+      <p>Wallet Address: <span>0xa60db66c824b3DD8996125d0E116a0a0FFe62d01</span></p>
       </div>
     </main>
   );
