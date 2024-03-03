@@ -247,7 +247,7 @@ return (
       {isMetaMaskConnected && (
         <div className="md:ml-4 mb-4 md:mb-0 flex items-center">
           <input
-            type="number"
+            type="text"
             value={mintAmount}
             onChange={(e) => setMintAmount(parseInt(e.target.value))}
             className="border rounded-md p-2 focus:outline-none focus:ring-4 focus:ring-yellow-500 focus:border-transparent mr-2"
@@ -265,7 +265,7 @@ return (
       {isMetaMaskConnected && (
         <div className="md:ml-4 mb-4 md:mb-0 flex items-center">
           <input
-            type="number"
+            type="text"
             value={sLXS}
             onChange={(e) => setsLXS(parseInt(e.target.value))}
             className="border rounded-md p-2 focus:outline-none focus:ring-4 focus:ring-yellow-500 focus:border-transparent mr-2"
