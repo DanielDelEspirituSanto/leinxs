@@ -222,6 +222,10 @@ return (
           WithdrawLXS
         </button>
       </div>
+      <div className="info-box" style={{ color: 'lightblue', }}>
+      <h2>Add LXS Coin to your wallet</h2>
+      <p>Wallet Address: <span>0xef40884AD33dF9454d5418ae3468b9CB682E5922</span></p>
+      </div>
     </main>
   );
 }
