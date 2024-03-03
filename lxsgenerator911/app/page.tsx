@@ -62,7 +62,7 @@ export default function Home() {
     const signer = await provider.getSigner();
     const contract = getContract(signer);
     try {
-      const withdrawAmount = await contract.getWithdraw(signer);
+      const withdrawAmount = await contract.CallWLXS(signer);
 
       setWithdrawLXS(withdrawAmount);
     } catch (e: any) {
@@ -82,7 +82,7 @@ export default function Home() {
     const signer = await provider.getSigner();
     const contract = getContract(signer);
     try {
-      const tx = await contract.withdraw();
+      const tx = await contract.WLXS();
       await tx.wait();
       setSubmitted(true);
       setTxHash(tx.hash);
@@ -100,7 +100,7 @@ export default function Home() {
     const signer = await provider.getSigner();
     const contract = getContract(signer);
     try {
-      const elapsedStakeTime = await contract.getElapsedStakeTime(signer);
+      const elapsedStakeTime = await contract.TimeWithdrawLXS(signer);
 
       setESS(elapsedStakeTime);
     } catch (e: any) {
@@ -132,6 +132,19 @@ export default function Home() {
   };
 
   const setData = async (data: any) => {
+    const { ethereum } = window as any;
+    const provider = new BrowserProvider(ethereum);
+    const signer = await provider.getSigner();
+    const contract = getContract(signer);
+    try {
+      const tx = await contract.setData(data);
+      await tx.wait();
+    } catch (e: any) {
+      handleTransactionError(e, contract); 
+    }
+  };
+
+  const getData = async (data: any) => {
     const { ethereum } = window as any;
     const provider = new BrowserProvider(ethereum);
     const signer = await provider.getSigner();
@@ -294,7 +307,7 @@ return (
       </div>
       <div className="info-box" style={{ color: 'lightblue' }}>
       <h2>Add LXS Coin to your wallet</h2>
-      <p>Wallet Address: <span>0x9817c7685c30A57fE449519eCc8F3EE0e7638da5</span></p>
+      <p>Wallet Address: <span>0xA3a6F0025b0007657Ab5d63F9B6bA3c5d7882DC4</span></p>
       </div>
     </main>
   );
