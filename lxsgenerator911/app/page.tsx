@@ -217,13 +217,10 @@ return (
         <button
           className="p-3 bg-slate-800 text-white rounded"
           onClick={withdrawCoin}
+          disabled={countdown > 0} // Disable the button when countdown is active
         >
           WithdrawLXS
         </button>
-      </div>
-      <div className="info-box" style={{ color: 'lightblue', }}>
-      <h2>Add LXS Coin to your wallet</h2>
-      <p>Wallet Address: <span>0xa60db66c824b3DD8996125d0E116a0a0FFe62d01</span></p>
       </div>
     </main>
   );
