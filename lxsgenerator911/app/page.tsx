@@ -17,7 +17,7 @@ export default function Home() {
   const [mintAmount, setMintAmount] = useState(0);
   const [withdrawLXS, setWithdrawLXS] = useState<number>(0);
   const [ESS, setESS] = useState<number>(0);
-  const [countdown, setCountdown] = useState(60);
+  const [countdown, setCountdown] = useState(9);
   const [transactionSubmitted, setTransactionSubmitted] = useState(false);
   
 
@@ -34,82 +34,6 @@ export default function Home() {
       if (accounts.length > 0) {
         setWalletKey(accounts[0]);
         setIsMetaMaskConnected(true);
-      }
-    }
-  };
-
-  useEffect(() => {
-    if (transactionSubmitted) {
-      // Start the countdown when a transaction is submitted
-      const timer = setInterval(() => {
-        setCountdown((prevCountdown) => {
-          // Stop the countdown at 0
-          if (prevCountdown === 0) {
-            clearInterval(timer);
-            return 0;
-          }
-          return prevCountdown - 1;
-        });
-      }, 1000);
-  
-      return () => clearInterval(timer);
-    }
-  }, [transactionSubmitted]);
-  
-  const getWithdrawAmount = async () => {
-    const { ethereum } = window as any;
-    const provider = new BrowserProvider(ethereum);
-    const signer = await provider.getSigner();
-    const contract = getContract(signer);
-    try {
-      const withdrawAmount = await contract.CallWLXS(signer);
-
-      setWithdrawLXS(withdrawAmount);
-    } catch (e: any) {
-      console.log("Error data:", e.data);
-      if (e.data) {
-        const decodedError = contract.interface.parseError(e.data);
-        console.log(`Fetching stake failed: ${decodedError?.args}`);
-      } else {
-        console.log("An unknown error occurred.");
-      }
-    }
-  };
-
-  const withdrawCoin = async () => {
-    const { ethereum } = window as any;
-    const provider = new BrowserProvider(ethereum);
-    const signer = await provider.getSigner();
-    const contract = getContract(signer);
-    try {
-      const tx = await contract.WLXS();
-      await tx.wait();
-      setSubmitted(true);
-      setTxHash(tx.hash);
-      // Reset the countdown to 60 seconds after successful withdrawal
-      setCountdown(60);
-    } catch (e: any) {
-      const decodedError = contract.interface.parseError(e.data);
-      alert(`Minting failed: ${decodedError?.args}`);
-    }
-  }
-
-  const getElapsedStakeTime = async () => {
-    const { ethereum } = window as any;
-    const provider = new BrowserProvider(ethereum);
-    const signer = await provider.getSigner();
-    const contract = getContract(signer);
-    try {
-      const elapsedStakeTime = await contract.TimeWithdrawLXS(signer);
-
-      setESS(elapsedStakeTime);
-    } catch (e: any) {
-      console.log("Error data:", e.data);
-      if (e.data) {
-        const decodedError = contract.interface.parseError(e.data);
-        console.log(`Fetching stake failed: ${decodedError?.args}`);
-      } else {
-        console.log("An unknown error occurred.");
       }
     }
   };
@@ -131,31 +55,6 @@ export default function Home() {
     }
   };
 
-  const setData = async (data: any) => {
-    const { ethereum } = window as any;
-    const provider = new BrowserProvider(ethereum);
-    const signer = await provider.getSigner();
-    const contract = getContract(signer);
-    try {
-      const tx = await contract.setData(data);
-      await tx.wait();
-    } catch (e: any) {
-      handleTransactionError(e, contract); 
-    }
-  };
-
-  const getData = async (data: any) => {
-    const { ethereum } = window as any;
-    const provider = new BrowserProvider(ethereum);
-    const signer = await provider.getSigner();
-    const contract = getContract(signer);
-    try {
-      const tx = await contract.setData(data);
-      await tx.wait();
-    } catch (e: any) {
-      handleTransactionError(e, contract); 
-    }
-  };
 
   const handleTransactionError = (e: any, contract: any) => {
     if (e.data) {
@@ -164,7 +63,7 @@ export default function Home() {
     } else {
       alert("Transaction failed: Unknown error");
     }
-  };
+  }; //if any at any point has error, this will pop out
 
   const mintTokens = async () => {
     const { ethereum } = window as any;
@@ -179,25 +78,6 @@ export default function Home() {
     } catch (e: any) {
       const decodedError = contract.interface.parseError(e.data);
       alert(`Minting failed: ${decodedError?.args}`);
-    }
-  };
-  
-  const getStake = async () => {
-    const { ethereum } = window as any;
-    const provider = new BrowserProvider(ethereum);
-    const signer = await provider.getSigner();
-    const contract = getContract(signer);
-    try {
-      const stakedInEth = await contract.getStake(signer);
-      setLXScoin(stakedInEth);
-    } catch (e: any) {
-      console.log("Error data:", e.data);
-      if (e.data) {
-        const decodedError = contract.interface.parseError(e.data);
-        console.log(`Fetching stake failed: ${decodedError?.args}`);
-      } else {
-        console.log("An unknown error occurred.");
-      }
     }
   };
 
@@ -216,13 +96,49 @@ export default function Home() {
       const tx = await contract.stake(sLXS);
       await tx.wait();
       setSubmitted(true);
-      setTransactionSubmitted(true); // Set transactionSubmitted to true after successful stake transaction
+      setTransactionSubmitted(true);
       setTxHash(tx.hash);
     } catch (e: any) {
       const decodedError = contract.interface.parseError(e.data);
       alert(`Staking failed: ${decodedError?.args}`);
     }
   };
+
+  useEffect(() => {
+    if (transactionSubmitted) {
+      // Start the countdown when a transaction is submitted
+      const timer = setInterval(() => {
+        setCountdown((prevCountdown) => {
+          // Stop the countdown at 0
+          if (prevCountdown === 0) {
+            clearInterval(timer);
+            return 0;
+          }
+          return prevCountdown - 1;
+        });
+      }, 1000);
+  
+      return () => clearInterval(timer);
+    }
+  }, [transactionSubmitted]);
+
+  const withdrawCoin = async () => {
+    const { ethereum } = window as any;
+    const provider = new BrowserProvider(ethereum);
+    const signer = await provider.getSigner();
+    const contract = getContract(signer);
+    try {
+      const tx = await contract.WLXS();
+      await tx.wait();
+      setSubmitted(true);
+      setTxHash(tx.hash);
+      // Reset the countdown to 60 seconds after successful withdrawal
+      setCountdown(9);
+    } catch (e: any) {
+      const decodedError = contract.interface.parseError(e.data);
+      alert(`Withdraw Failed: ${decodedError?.args}`);
+    }
+  }
 
   const amountChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const inputValue = e.target.value;
@@ -245,7 +161,7 @@ return (
       backgroundPosition: 'center',}}
       className="flex flex-col md:flex-row justify-center items-start" >
         
-      {/* Connect Wallet button */}
+      {/* Connect Wallet section */}
       <div className="mb-4 md:mb-0">
         <button
           onClick={connectWallet}
@@ -274,7 +190,7 @@ return (
         </div>
       )}
   
-      {/* STAKE section */}
+      {/* Stake section */}
       {isMetaMaskConnected && (
         <div className="md:ml-4 mb-4 md:mb-0 flex items-center">
           <input
@@ -295,7 +211,7 @@ return (
         </div>
       )}
 
-      {/* WithdrawLXS button */}
+      {/* WithdrawLXS section */}
       <div className="md:ml-auto">
         <p className="text-blue-400">{countdown} seconds to WithdrawLXS *Counts Intensely*</p>
         <button
@@ -305,9 +221,9 @@ return (
           WithdrawLXS
         </button>
       </div>
-      <div className="info-box" style={{ color: 'lightblue' }}>
+      <div className="info-box" style={{ color: 'lightblue', }}>
       <h2>Add LXS Coin to your wallet</h2>
-      <p>Wallet Address: <span>0xA3a6F0025b0007657Ab5d63F9B6bA3c5d7882DC4</span></p>
+      <p>Wallet Address: <span>0xa60db66c824b3DD8996125d0E116a0a0FFe62d01</span></p>
       </div>
     </main>
   );
