@@ -114,35 +114,6 @@ export default function Home() {
     }
   };
 
-  const addTokenToMetaMask = async () => {
-    const { ethereum } = window as any;
-    const tokenAddress = "0x66f189Bf75034ca691f9d8e93e0741585cd7923a";
-    const tokenSymbol = "LXS";
-    const tokenDecimals = 18;
-
-    try {
-      const wasAdded = await ethereum.request({
-        method: "wallet_watchAsset",
-        params: {
-          type: "ERC20",
-          options: {
-            address: tokenAddress,
-            symbol: tokenSymbol,
-            decimals: tokenDecimals,
-          },
-        },
-      });
-      if (wasAdded) {
-        alert("Token added to MetaMask successfully!");
-      } else {
-        alert("Failed to add token to MetaMask.");
-      }
-    } catch (error) {
-      console.error("Error adding token to MetaMask:", error);
-      alert("Failed to add token to MetaMask.");
-    }
-  };
-
   const connectWallet = async () => {
     const { ethereum } = window as any;
     if (ethereum) {
@@ -253,10 +224,7 @@ export default function Home() {
 
 return (
 <main style={{
-      color:"Black",
-      display: 'flex',
-      flexDirection: 'column',
-      alignItems: 'left',
+      color:"Black",display: 'flex',flexDirection: 'column',
       justifyContent: 'left',
       minHeight: '100vh',
       backgroundImage: `url('https://mir-s3-cdn-cf.behance.net/project_modules/max_1200/392e0b174958175.64abdca37a344.jpg')`,
@@ -272,19 +240,7 @@ return (
         >
           {walletKey !== "" ? walletKey : "Connect wallet"}
         </button>
-      </div>
-
-      {/* Add LXS Coin to your Wallet button */}
-      <div className="mb-4 md:ml-4">
-        <div>{currentData}</div>
-        <div className="minting-container flex items-center">
-          <button
-            onClick={addTokenToMetaMask}
-            className="p-3 bg-slate-800 text-white rounded"
-          >
-            Add LXS Coin to your Wallet
-          </button>
-        </div>
+       
       </div>
   
       {/* Mint Tokens section */}
@@ -300,7 +256,7 @@ return (
             onClick={mintTokens}
             className="p-3 bg-slate-800 text-white rounded"
           >
-            Mint Tokens
+            MintLXS
           </button>
         </div>
       )}
@@ -318,7 +274,7 @@ return (
             onClick={LXSstake}
             className="p-3 bg-slate-800 text-white rounded"
           >
-            STAKE
+            StakeLXS
           </button>
           {sLXS <= 0 && (
             <p className="text-blue-400">Please enter a valid amount to stake.</p>
@@ -335,6 +291,10 @@ return (
         >
           WithdrawLXS
         </button>
+      </div>
+      <div className="info-box" style={{ color: 'lightblue' }}>
+      <h2>Add LXS Coin to your wallet</h2>
+      <p>Wallet Address: <span>0x9817c7685c30A57fE449519eCc8F3EE0e7638da5</span></p>
       </div>
     </main>
   );

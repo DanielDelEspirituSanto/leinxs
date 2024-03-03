@@ -66,7 +66,4 @@ contract leinxs is ERC20, Ownable {
     function getLastStakeTimestamp(address account) public view returns (uint256) {
         return _lastStakeTimestamp[account];
   }
-
-
-    
 }
